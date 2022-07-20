@@ -1,6 +1,8 @@
 import React, {useState} from 'react'
 import {Form,Button} from 'react-bootstrap';
 import { actualtime, today } from '../data/constants';
+import { checkRestriction} from '../services/checkService';
+import { getWeekday } from '../services/dateService';
 import { validateForm } from '../services/validatationService';
 
 export const FormPP = () => {
@@ -26,7 +28,11 @@ export const FormPP = () => {
         if(Object.keys(formErrors).length > 0){
           setErrors(formErrors);
         }else{
-          console.log(formp);
+          formp.date_info = getWeekday(formp.date_info);
+          let plateNumber = Number(formp.plate_number.charAt(formp.plate_number.length-1))
+          let haveRestriction = checkRestriction(formp.date_info,plateNumber,formp.time_info)
+          //let haveRestriction = checkRestriction("Wednesday",5,formp.time_info)
+          console.log("Está vetado:",haveRestriction);
           
         }
         

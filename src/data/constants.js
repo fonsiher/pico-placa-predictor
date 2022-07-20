@@ -4,6 +4,9 @@ const provinceCodes = ["A", "B", "C", "E", "G", "H", "I", "J", "K", "L", "M", "N
 
 const licencePattern = /[A-Z]{3}[-][0-9]{4}/
 
+const dayRestrict = ["07:00", "09:30"];
+const nigthRestrict = ["16:00", "19:30"];
+
 const td = new Date();
 const today = () => {
     var nf = date.format(td, 'YYYY-MM-D')
@@ -15,4 +18,4 @@ const actualtime = () => {
     return ttime;
 }
 
-export { provinceCodes, today, licencePattern, actualtime }
+export { provinceCodes, today, licencePattern, actualtime, dayRestrict, nigthRestrict }
