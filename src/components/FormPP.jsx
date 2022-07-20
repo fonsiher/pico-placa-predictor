@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {Form,Button} from 'react-bootstrap';
 import { actualtime, today } from '../data/constants';
-import { checkRestriction} from '../services/checkService';
+import { checkRestriction, isSpecialPlate, showSucess, showWrong} from '../services/checkService';
 import { getWeekday } from '../services/dateService';
 import { validateForm } from '../services/validatationService';
 
@@ -28,12 +28,19 @@ export const FormPP = () => {
         if(Object.keys(formErrors).length > 0){
           setErrors(formErrors);
         }else{
-          formp.date_info = getWeekday(formp.date_info);
+          let weekday = getWeekday(formp.date_info);
           let plateNumber = Number(formp.plate_number.charAt(formp.plate_number.length-1))
-          let haveRestriction = checkRestriction(formp.date_info,plateNumber,formp.time_info)
-          //let haveRestriction = checkRestriction("Wednesday",5,formp.time_info)
-          console.log("Está vetado:",haveRestriction);
-          
+          let secondLetter = formp.plate_number[1];
+          let special = isSpecialPlate(secondLetter);
+          if(!special){
+            let haveRestriction = checkRestriction(weekday,plateNumber,formp.time_info)
+            if(haveRestriction)
+              showWrong(`You can't go out with your car on ${weekday} - ${formp.date_info} at ${formp.time_info}`)
+            else
+              showSucess(`Your car it's free to be on the road on ${weekday} - ${formp.date_info} at ${formp.time_info} `)
+          }else{
+              showSucess("This a special licence plate, you're always free to go")
+          }
         }
         
     }

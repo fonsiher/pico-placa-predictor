@@ -1,6 +1,7 @@
 import date from 'date-and-time';
 
 const provinceCodes = ["A", "B", "C", "E", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+const exceptionPlates = ["E", "X", "M", "S"]
 
 const licencePattern = /[A-Z]{3}[-][0-9]{4}/
 
@@ -18,4 +19,4 @@ const actualtime = () => {
     return ttime;
 }
 
-export { provinceCodes, today, licencePattern, actualtime, dayRestrict, nigthRestrict }
+export { provinceCodes, today, licencePattern, actualtime, dayRestrict, nigthRestrict, exceptionPlates }
