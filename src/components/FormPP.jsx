@@ -9,6 +9,7 @@ export const FormPP = () => {
 
     const [formp, setFormp] = useState({});
     const [errors, setErrors] = useState({});
+    const [response, setResponse] = useState("");
     const setField = (field,value)=>{
         setFormp({
             ...formp,
@@ -23,6 +24,7 @@ export const FormPP = () => {
     }
 
     const handleSubmit = async (event) => {
+      
         event.preventDefault();
         const formErrors = validateForm(formp);
         if(Object.keys(formErrors).length > 0){
@@ -34,16 +36,22 @@ export const FormPP = () => {
           let special = isSpecialPlate(secondLetter);
           if(!special){
             let haveRestriction = checkRestriction(weekday,plateNumber,formp.time_info)
-            if(haveRestriction)
+            if(haveRestriction){
               showWrong(`You can't go out with your car on ${weekday} - ${formp.date_info} at ${formp.time_info}`)
-            else
+              setResponse("You can't go out with your car")
+            }
+            else{
               showSucess(`Your car it's free to be on the road on ${weekday} - ${formp.date_info} at ${formp.time_info} `)
+              setResponse("Your car it's free to be on the road")
+            }
+              
           }else{
               showSucess("This a special licence plate, you're always free to go")
+              setResponse("This a special licence plate, you're always free to go")
           }
         }
-        
     }
+
   return (
 
     <div id="content-wrapper" className="d-flex flex-column">
@@ -65,7 +73,7 @@ export const FormPP = () => {
           isInvalid={!!errors.plate_number}
            autoFocus
            required />
-           <Form.Control.Feedback type='invalid'>
+           <Form.Control.Feedback type='invalid' className='errPlate'>
             {errors.plate_number}
         </Form.Control.Feedback>
         </Form.Group>
@@ -87,6 +95,7 @@ export const FormPP = () => {
         <Form.Label>Time to check:</Form.Label>
           <Form.Control
             type="time"
+            placeholder="Time to check"
             min = {actualtime()}
             onChange={(e)=>setField('time_info',e.target.value)}
            isInvalid={!!errors.time_info}
@@ -100,6 +109,8 @@ export const FormPP = () => {
         CHECK
       </Button>
       </Form>
+
+      <input hidden readOnly data-testid='hideinput' value={response}></input>
 
     </div>
 
