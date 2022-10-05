@@ -5,7 +5,7 @@ const exceptionPlates = ["E", "X", "M", "S"]
 
 const licencePattern = /[A-Z]{3}[-][0-9]{4}/
 
-const dayRestrict = ["07:00", "09:30"];
+const dayRestrict = ["06:00", "09:30"];
 const nigthRestrict = ["16:00", "19:30"];
 
 const td = new Date();
